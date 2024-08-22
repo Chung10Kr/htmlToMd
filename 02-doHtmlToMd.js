@@ -5,9 +5,10 @@ import TurndownService from 'turndown'
 import turndownPluginGfm from 'turndown-plugin-gfm'
 import path from 'path';
 import { URL } from 'url';
-
-let HTML_URL = 'https://www.egovframe.go.kr/wiki/doku.php?id=egovframework:rte4.2:fdl:ioc_container:customizing_the_nature_of_a_bean';
-
+import {
+    HTML_URL
+  } from "./target.js";
+  
 async function fetchHtml(url) {
     try {
         const response = await fetch(url);
@@ -178,10 +179,13 @@ function convertHtmlToMarkdown(htmlString) {
             return `[${node.textContent}](https://www.egovframe.go.kr/${node.getAttribute('href')})`
         },
         'em' : function(content){
-            return `***${content}***`;
+            return `***${content}*** `;
         },
         'code' : function(content){
             return content;
+        },
+        'li' : function(content){
+            return `- ${content.trim()}\n`
         }
     }
 
