@@ -6,9 +6,13 @@ import turndownPluginGfm from 'turndown-plugin-gfm'
 import path from 'path';
 import { URL } from 'url';
 import {
-    HTML_URL
+    TARGET_DIR,
+    SAVE_DIR,
+    HTML_URL,
+    BRANCH_NAME
   } from "./target.js";
   
+
 async function fetchHtml(url) {
     try {
         const response = await fetch(url);
@@ -22,6 +26,9 @@ async function fetchHtml(url) {
 
 async function saveMarkdownToFile(filePath, content) {
     try {
+        const dir = path.dirname(filePath);
+        await fs.mkdir(dir, { recursive: true });
+             
         await fs.writeFile(filePath, content, 'utf8');
         console.log(`Markdown has been saved to ${filePath}`);
     } catch (error) {
@@ -154,9 +161,10 @@ function convertHtmlToMarkdown(htmlString) {
             const urlObject = new URL(`https://www.egovframe.go.kr/${src}`);
             const mediaParam = urlObject.searchParams.get('media');
             const fileName = mediaParam ? path.basename(mediaParam) : path.basename(urlObject.pathname);
+            
             downloadImage(
                 `https://www.egovframe.go.kr/${src}`,
-                `./images/${fileName}`
+                `${TARGET_DIR}/egovframe-runtime/${SAVE_DIR}/images/${fileName}`
             );
             return `![${alt}](./images/${fileName})`;
         },
@@ -172,7 +180,7 @@ function convertHtmlToMarkdown(htmlString) {
                 return `[${node.textContent}](#${createAnchor( content )})`
             }
             
-            if( href.indexOf("https") != -1){
+            if( href.indexOf("http") != -1){
                 return `[${node.textContent}](${node.getAttribute('href')})`    
             }
 
@@ -209,12 +217,9 @@ function convertHtmlToMarkdown(htmlString) {
         return false;
     }
 
-     
-  
-
     let pageContent = extractContentByClass(htmlData, 'page'); // 'page' 클래스 부분만 추출
     pageContent = removeElementsByClass(pageContent, 'toc'); // 'toc' 클래스 부분만 제거
 
     const markdown = convertHtmlToMarkdown(pageContent); // HTML을 Markdown으로 변환
-    await saveMarkdownToFile('result.md', markdown); // Markdown 파일로 저장
+    await saveMarkdownToFile(`${TARGET_DIR}/egovframe-runtime/${SAVE_DIR}/${BRANCH_NAME}.md`, markdown); // Markdown 파일로 저장
 })();
