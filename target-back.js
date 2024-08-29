@@ -1,16 +1,17 @@
 
 
-export const TARGET_DIR = "";
+export const TARGET_DIR = "/Users/crlee/dev/contribution/egovframe-docs";
 export const TOKEN = "";
-export const UP_STREAM_REPO_OWNER = "";
-export const UP_STREAM_REPO_NAME = "";
+export const UP_STREAM_REPO_OWNER = "eGovFramework";
+export const UP_STREAM_REPO_NAME = "egovframe-docs";
 export const REPO_OWNER = "";
 
-export const SAVE_DIR = "";
-export const HTML_URL = ""
+export const SAVE_DIR = "foundation-layer-core";
+export const SPLIT_STR = "ptl";
+export const HTML_URL = "https://www.egovframe.go.kr/wiki/doku.php?id=egovframework:rte4.2:ptl:spel"
 
 function setBranch(HTML_URL){
-    let arr = HTML_URL.split("fdl")
+    let arr = HTML_URL.split( SPLIT_STR )
     arr = arr[1].split(":").reverse().filter(x=>x)
     if(arr.length==1){
         return `${arr[0].replaceAll("_","-")}`

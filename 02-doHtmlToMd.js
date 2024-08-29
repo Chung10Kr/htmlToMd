@@ -139,9 +139,12 @@ function convertHtmlToMarkdown(htmlString) {
             if( className.includes('code') ){
                 content = content.replace(/\\/g, '');
                 if( content.charAt(0) == "<"){
-                    return "\n\n ```xml\n"+content+"\n```"     
+                    return "\n\n```xml\n"+content+"\n```"     
                 }
-                return "\n\n ```java\n"+content+"\n```"     
+                if( content.charAt(0) == "p"){
+                    return "\n\n```java\n"+content+"\n```"     
+                }
+                return "\n\n```bash\n"+content+"\n```"     
             }
             return content
         },
