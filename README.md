@@ -6,7 +6,7 @@
 npm insatll
 ```
 
-# create branch
+# Create branch
 ```
 node 01-setBranch.js
 ```
