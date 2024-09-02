@@ -163,8 +163,13 @@ function convertHtmlToMarkdown(htmlString) {
 
             const urlObject = new URL(`https://www.egovframe.go.kr/${src}`);
             const mediaParam = urlObject.searchParams.get('media');
-            const fileName = mediaParam ? path.basename(mediaParam) : path.basename(urlObject.pathname);
-            
+
+            let fileName = mediaParam ? path.basename(mediaParam) : path.basename(urlObject.pathname);
+            let _tmp = fileName.split(":").reverse();
+            if(_tmp.length > 1){
+                fileName = `${_tmp[1]}-${_tmp[0]}`    
+            }
+            console.log( fileName );
             downloadImage(
                 `https://www.egovframe.go.kr/${src}`,
                 `${TARGET_DIR}/egovframe-runtime/${SAVE_DIR}/images/${fileName}`
