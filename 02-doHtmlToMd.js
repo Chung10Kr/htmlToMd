@@ -52,41 +52,6 @@ function removeElementsByClass(htmlString, classToRemove) {
     return $.html(); // 제거된 후의 HTML을 반환
 }
 
-function convertTableToMarkdown(html) {
-    const $ = cheerio.load(html);
-    let markdownTable = '';
-
-    $('table').each((i, table) => {
-        const headers = [];
-        const rows = [];
-
-        // Table headers
-        $(table).find('tr').each((i, row) => {
-            const rowData = [];
-            $(row).find('th, td').each((j, cell) => {
-                rowData.push($(cell).text().trim());
-            });
-
-            if (i === 0) {
-                headers.push(...rowData);
-            } else {
-                rows.push(rowData);
-            }
-        });
-
-        // Construct the Markdown table
-        if (headers.length > 0) {
-            markdownTable += `| ${headers.join(' | ')} |\n`;
-            markdownTable += `| ${headers.map(() => '---').join(' | ')} |\n`;
-        }
-
-        rows.forEach(row => {
-            markdownTable += `| ${row.join(' | ')} |\n`;
-        });
-    });
-
-    return markdownTable;
-}
 // 이미지 다운로드 함수
 async function downloadImage(url, filePath) {
     const response = await fetch(url);
@@ -169,7 +134,6 @@ function convertHtmlToMarkdown(htmlString) {
             if(_tmp.length > 1){
                 fileName = `${_tmp[1]}-${_tmp[0]}`    
             }
-            console.log( fileName );
             downloadImage(
                 `https://www.egovframe.go.kr/${src}`,
                 `${TARGET_DIR}/egovframe-runtime/${SAVE_DIR}/images/${fileName}`
@@ -180,10 +144,20 @@ function convertHtmlToMarkdown(htmlString) {
             if( content.charAt(0) == "!" ){
                 return content;
             }
+            
+            let arr = [
+                "String","Long","Integer","Object","Date","Exception",
+                "Environment","URL","Cache","Element","File"
+            ]
+            if( arr.some( str => str == content) ){
+                return content
+            }
+            
             const href = node.getAttribute('href')
             if( !href ){
-                return content;
+                return content.replaceAll('\\' , '');
             }
+
             if( href.charAt(0) == '#' ){
                 return `[${node.textContent}](#${createAnchor( content )})`
             }

@@ -8,6 +8,7 @@ import {
   TOKEN,
   UP_STREAM_REPO_OWNER,
   UP_STREAM_REPO_NAME,
+  UP_BRANCH_OWNER,
   REPO_OWNER
 } from "./target.js";
 
@@ -55,7 +56,7 @@ async function createPullRequest() {
       repo: UP_STREAM_REPO_NAME,    // 원본 리포지토리 이름
       title: PR_TITLE,
       head: `${REPO_OWNER}:${BRANCH_NAME}`,  // 포크된 리포지토리의 브랜치
-      base: 'main',                // 원본 리포지토리의 기본 브랜치
+      base: `${UP_BRANCH_OWNER}`,                // 원본 리포지토리의 기본 브랜치
       body: PR_BODY,
     });
 

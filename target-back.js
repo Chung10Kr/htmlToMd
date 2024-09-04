@@ -4,7 +4,8 @@ export const TARGET_DIR = "/Users/crlee/dev/contribution/egovframe-docs";
 export const TOKEN = "";
 export const UP_STREAM_REPO_OWNER = "eGovFramework";
 export const UP_STREAM_REPO_NAME = "egovframe-docs";
-export const REPO_OWNER = "";
+export const UP_BRANCH_OWNER = "contribution";
+export const REPO_OWNER = "Chung10Kr";
 
 export const SAVE_DIR = "foundation-layer-core";
 export const SPLIT_STR = "ptl";
